@@ -1,14 +1,45 @@
+import { useState } from "react";
+import SubNote from "./SubNote";
+
+
+let notesPlaceHolders = [
+    { desc: '', isMarked: false },
+    { desc: '', isMarked: false },
+    { desc: '', isMarked: false },
+    { desc: '', isMarked: false },
+    { desc: '', isMarked: false },
+    { desc: '', isMarked: false },
+    { desc: '', isMarked: false },
+    { desc: '', isMarked: false },
+    { desc: '', isMarked: false },
+]
+
 export default function BigNote() {
+    const [placeHolders, setPlaceHolders] = useState(notesPlaceHolders)
+
+    function addPlaceHolder() {
+        if (placeHolders.length >= 99) return
+        setPlaceHolders(p => [...p, { desc: '', isMarked: false }])
+    }
+
     return (
         <div className="big-note w-100 md:w-150 h-180 p-1.5">
             <div className="horizontal-container w-full h-full flex bg-amber-200 rounded-lg relative">
-                <div className="note-header text-lg md:text-2xl font-medium text-amber-400 border-b-blue-200 border-b-2 w-full h-18 flex justify-center items-center absolute">
+                <div className="note-header z-10 rounded-t-2xl bg-amber-200 text-md md:text-2xl font-extralight text-amber-400 border-b-blue-200 border-b-1 w-full h-18 flex justify-center items-center absolute">
                     Avihay's Notebook 📝
                 </div>
-                <div className="left-container border-r-1 border-r-pink-400 w-14 h-full relative"></div>
+                <div className="left-container z-20 border-r-2 border-r-pink-400 w-16 h-full relative"></div>
+                <div className="right-container overflow-y-scroll w-full h-full pt-20 absolute">
+                    {placeHolders.map((note, index) => (
+                        <div key={index} className="note">
+                            <SubNote key={index} />
+                        </div>
+                    ))}
+                    <div className="plus-container">
+                        <button onClick={addPlaceHolder} className="cursor-pointer m-2.5 rounded-full text-4xl p-2.5 px-4 leading-none bg-amber-300">+</button>
+                    </div>
+                </div>
             </div>
-            {/* <div className="note-header caret-amber-100 bg-amber-200 w-full h-8 rounded-tl-lg rounded-tr-lg"></div> */}
-            {/* caret-amber-100 bg-amber-200 rounded-lg */}
         </div>
     )
 }
