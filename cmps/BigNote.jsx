@@ -1,4 +1,7 @@
+import { useState } from "react";
 import SubNote from "./SubNote";
+
+
 let notesPlaceHolders = [
     { desc: '', isMarked: false },
     { desc: '', isMarked: false },
@@ -12,6 +15,13 @@ let notesPlaceHolders = [
 ]
 
 export default function BigNote() {
+    const [placeHolders, setPlaceHolders] = useState(notesPlaceHolders)
+
+    function addPlaceHolder() {
+        if (placeHolders.length >= 99) return
+        setPlaceHolders(p => [...p, { desc: '', isMarked: false }])
+    }
+
     return (
         <div className="big-note w-100 md:w-150 h-180 p-1.5">
             <div className="horizontal-container w-full h-full flex bg-amber-200 rounded-lg relative">
@@ -20,11 +30,14 @@ export default function BigNote() {
                 </div>
                 <div className="left-container z-20 border-r-2 border-r-pink-400 w-16 h-full relative"></div>
                 <div className="right-container overflow-y-scroll w-full h-full pt-20 absolute">
-                    {notesPlaceHolders.map((note, index) => (
+                    {placeHolders.map((note, index) => (
                         <div key={index} className="note">
                             <SubNote key={index} />
                         </div>
                     ))}
+                    <div className="plus-container">
+                        <button onClick={addPlaceHolder} className="cursor-pointer m-2.5 rounded-full text-4xl p-2.5 px-4 leading-none bg-amber-300">+</button>
+                    </div>
                 </div>
             </div>
         </div>
