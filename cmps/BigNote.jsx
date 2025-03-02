@@ -3,32 +3,56 @@ import { getNotes } from "../services/apiService"
 import SubNote from "./SubNote"
 
 
-let notesPlaceHolders = [
-    { desc: '', isMarked: false },
-    { desc: '', isMarked: false },
-    { desc: '', isMarked: false },
-    { desc: '', isMarked: false },
-    { desc: '', isMarked: false },
-    { desc: '', isMarked: false },
-    { desc: '', isMarked: false },
-]
+let initialPlaceHolders = Array(7).fill({ desc: "...", isMarked: false })
 
 
 export default function BigNote() {
-    const [placeHolders, setPlaceHolders] = useState(notesPlaceHolders)
+    const [placeHolders, setPlaceHolders] = useState(initialPlaceHolders)
+    const [notes, setNotes] = useState([])
 
     useEffect(() => {
-        getNotes().then((notes) => {
-            console.log(notes)
+        getNotes().then((res) => {
+            setNotes(res.notes)
+            populatePlaceHolders()
         }).catch((error) => {
             console.error('Error fetching notes:', error)
         })
     }, [])
 
+    useEffect(() => {
+        if (notes.length > 0) {
+            populatePlaceHolders(notes)
+        }
+    }, [notes])
+
+
     function addPlaceHolder() {
         if (placeHolders.length >= 99) return
-        setPlaceHolders(p => [{ desc: '', isMarked: false }, ...p])
+        setPlaceHolders(p => [{ desc: '...', isMarked: false }, ...p])
     }
+
+
+    function populatePlaceHolders() {
+        let updatedPlaceHolders = [...placeHolders]
+
+        while (updatedPlaceHolders.length < notes.length) {
+            updatedPlaceHolders.unshift({ desc: "...", isMarked: false })
+        }
+
+        updatedPlaceHolders = updatedPlaceHolders.map((placeholder, index) => {
+            if (notes[index]) {
+                return {
+                    ...placeholder,
+                    desc: notes[index].desc.S,
+                    note_id: notes[index].note_id.S,
+                }
+            }
+            return placeholder
+        })
+
+        setPlaceHolders(updatedPlaceHolders)
+    }
+
 
     return (
         <div className="big-note w-100 md:w-150 h-180 p-1.5">
@@ -45,7 +69,7 @@ export default function BigNote() {
                 <div className="right-container overflow-y-scroll w-full h-full pt-20 absolute">
                     {placeHolders.map((note, index) => (
                         <div key={index} className="note">
-                            <SubNote key={index} />
+                            <SubNote key={index} note={note} />
                         </div>
                     ))}
                 </div>
