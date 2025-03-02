@@ -22,10 +22,6 @@ body{
     .right-container::-webkit-scrollbar-thumb:hover {
       background-color: black; 
     }
-
-    .add-note-btn{
-      font-family: emoji;
-    }
   }
 }
 

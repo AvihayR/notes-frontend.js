@@ -23,8 +23,13 @@ export default function BigNote() {
     return (
         <div className="big-note w-100 md:w-150 h-180 p-1.5">
             <div className="horizontal-container w-full h-full flex bg-amber-200 rounded-lg relative">
-                <div className="note-header z-10 rounded-t-2xl bg-amber-200 text-md md:text-2xl font-extralight text-amber-400 border-b-blue-200 border-b-1 w-full h-18 flex justify-center items-center absolute">
-                    Avihay's Notebook 📝
+                <div className="note-header z-10 rounded-t-2xl bg-amber-200 text-md md:text-2xl font-extralight text-amber-400 border-b-blue-200 border-b-1 w-full h-18 flex flex-col justify-center items-center absolute">
+                    <div className="plus-container">
+                        <button onClick={addPlaceHolder} className="add-note-btn cursor-pointer overflow-hidden text-ellipsis w-16 whitespace-nowrap  m-2.5 rounded-full text-xl p-1.5 px-3.5 leading-none font-sans font-bold outline-2 bg-amber-400 text-amber-200 hover:bg-amber-300 hover:text-amber-50 hover:outline-amber-400 hover:w-36 transition duration-200 ease-in-out">
+                            +
+                            Add note
+                        </button>
+                    </div>
                 </div>
                 <div className="left-container z-20 border-r-2 border-r-pink-400 w-16 h-full relative"></div>
                 <div className="right-container overflow-y-scroll w-full h-full pt-20 absolute">
@@ -33,9 +38,6 @@ export default function BigNote() {
                             <SubNote key={index} />
                         </div>
                     ))}
-                    <div className="plus-container">
-                        <button onClick={addPlaceHolder} className="add-note-btn cursor-pointer m-2.5 rounded-full text-4xl p-1.5 px-3.5 leading-none font-bold outline-2 bg-amber-300 text-amber-400 hover:bg-amber-400 hover:text-amber-200 hover:outline-amber-300">+</button>
-                    </div>
                 </div>
             </div>
         </div>
