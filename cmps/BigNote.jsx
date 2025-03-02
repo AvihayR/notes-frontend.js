@@ -10,8 +10,6 @@ let notesPlaceHolders = [
     { desc: '', isMarked: false },
     { desc: '', isMarked: false },
     { desc: '', isMarked: false },
-    { desc: '', isMarked: false },
-    { desc: '', isMarked: false },
 ]
 
 export default function BigNote() {
@@ -36,7 +34,7 @@ export default function BigNote() {
                         </div>
                     ))}
                     <div className="plus-container">
-                        <button onClick={addPlaceHolder} className="cursor-pointer m-2.5 rounded-full text-4xl p-2.5 px-4 leading-none bg-amber-300">+</button>
+                        <button onClick={addPlaceHolder} className="add-note-btn cursor-pointer m-2.5 rounded-full text-4xl p-1.5 px-3.5 leading-none font-bold outline-2 bg-amber-300 text-amber-400 hover:bg-amber-400 hover:text-amber-200 hover:outline-amber-300">+</button>
                     </div>
                 </div>
             </div>
