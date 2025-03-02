@@ -1,5 +1,6 @@
-import { useState } from "react";
-import SubNote from "./SubNote";
+import { useState, useEffect } from "react"
+import { getNotes } from "../services/apiService"
+import SubNote from "./SubNote"
 
 
 let notesPlaceHolders = [
@@ -12,12 +13,21 @@ let notesPlaceHolders = [
     { desc: '', isMarked: false },
 ]
 
+
 export default function BigNote() {
     const [placeHolders, setPlaceHolders] = useState(notesPlaceHolders)
 
+    useEffect(() => {
+        getNotes().then((notes) => {
+            console.log(notes)
+        }).catch((error) => {
+            console.error('Error fetching notes:', error)
+        })
+    }, [])
+
     function addPlaceHolder() {
         if (placeHolders.length >= 99) return
-        setPlaceHolders(p => [...p, { desc: '', isMarked: false }])
+        setPlaceHolders(p => [{ desc: '', isMarked: false }, ...p])
     }
 
     return (
