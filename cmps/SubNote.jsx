@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { getNote } from "../services/apiService"
+import { getNote, createNote, updateNote } from "../services/apiService"
 
 
 export default function SubNote({ note }) {
@@ -14,9 +14,22 @@ export default function SubNote({ note }) {
     }
 
     const handleBlur = async () => {
-        getNote(note.note_id)
-            .then((res) => { console.log(res) })
-            .catch((err) => { console.log(err) })
+        try {
+            let res = await getNote(note.note_id)
+
+            if (!res) {
+                res = await createNote(noteObj)
+            }
+            else if (res.note.desc.S === noteObj.desc) return
+            else {
+                res = await updateNote(noteObj)
+            }
+
+
+        } catch (err) {
+            console.log(err)
+        }
+
     }
 
     if (note === undefined) {

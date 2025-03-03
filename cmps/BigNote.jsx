@@ -13,7 +13,6 @@ export default function BigNote() {
     useEffect(() => {
         getNotes().then((res) => {
             setNotes(res.notes)
-            populatePlaceHolders()
         }).catch((error) => {
             console.error('Error fetching notes:', error)
         })
