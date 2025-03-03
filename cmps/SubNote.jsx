@@ -19,6 +19,7 @@ export default function SubNote({ note }) {
 
             if (!res) {
                 res = await createNote(noteObj)
+                setNoteObj({ ...noteObj, note_id: res.note.note_id })
             }
             else if (res.note.desc.S === noteObj.desc) return
             else {
@@ -42,6 +43,7 @@ export default function SubNote({ note }) {
     return (
         <div className="sub-note-container h-19 text-2xl font-light pl-18 text-blue-900 border-b-blue-200 border-b-1">
             <input type="text" className="w-full h-full focus:outline-0 border-0" value={noteObj.desc} onChange={handleChange} onBlur={handleBlur} />
+            <label>{noteObj.note_id && '*'}</label>
         </div>
     )
 }
