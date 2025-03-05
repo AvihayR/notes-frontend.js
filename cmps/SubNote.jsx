@@ -4,7 +4,6 @@ import { getNote, createNote, updateNote } from "../services/apiService"
 
 export default function SubNote({ note }) {
     const [noteObj, setNoteObj] = useState(note)
-
     useEffect(() => {
         setNoteObj(note)
     }, [note])
@@ -21,7 +20,7 @@ export default function SubNote({ note }) {
                 res = await createNote(noteObj)
                 setNoteObj({ ...noteObj, note_id: res.note.note_id })
             }
-            else if (res.note.desc.S === noteObj.desc) return
+            else if (res.note.desc === noteObj.desc) return
             else {
                 res = await updateNote(noteObj)
             }

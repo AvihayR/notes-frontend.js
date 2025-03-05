@@ -3,7 +3,7 @@ import { getNotes } from "../services/apiService"
 import SubNote from "./SubNote"
 
 
-let initialPlaceHolders = Array(7).fill({ desc: "...", isMarked: false })
+let initialPlaceHolders = Array(7).fill({ desc: "...", completed: false })
 
 
 export default function BigNote() {
@@ -42,8 +42,9 @@ export default function BigNote() {
             if (notes[index]) {
                 return {
                     ...placeholder,
-                    desc: notes[index].desc.S,
-                    note_id: notes[index].note_id.S,
+                    desc: notes[index].desc,
+                    note_id: notes[index].note_id,
+                    complete: notes[index].complete
                 }
             }
             return placeholder
