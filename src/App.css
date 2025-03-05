@@ -4,22 +4,22 @@ body{
   box-sizing: border-box;
 
   .big-note{
-    .right-container::-webkit-scrollbar {
+    *::-webkit-scrollbar {
       width: 10px;
       border-radius: 16px
     }
 
-    .right-container::-webkit-scrollbar-track {
+    *::-webkit-scrollbar-track {
       background: #0000; 
     }
     
-    .right-container::-webkit-scrollbar-thumb {
+    *::-webkit-scrollbar-thumb {
       background: #5544; 
       border-radius: 8px;
       background-clip: padding-box; 
     }
 
-    .right-container::-webkit-scrollbar-thumb:hover {
+    *::-webkit-scrollbar-thumb:hover {
       background-color: black; 
     }
   }
