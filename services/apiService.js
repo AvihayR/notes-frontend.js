@@ -42,12 +42,13 @@ export const createNote = async (note) => {
 
 
 export const updateNote = async (note) => {
-    const { note_id, desc } = note
+    const { note_id, desc, completed } = note
 
     try {
         const response = await axios.put(`${API_URL}/notes/${note_id}`, {
             note_id: note_id,
-            desc: desc
+            desc: desc,
+            completed: completed
         })
         console.log(response.data)
         return response.data
