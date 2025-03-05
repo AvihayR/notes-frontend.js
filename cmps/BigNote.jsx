@@ -3,7 +3,7 @@ import { getNotes } from "../services/apiService"
 import SubNote from "./SubNote"
 
 
-let initialPlaceHolders = Array(7).fill({ desc: "...", completed: false })
+let initialPlaceHolders = Array(7).fill({ desc: "", completed: false })
 
 
 export default function BigNote() {
@@ -27,7 +27,7 @@ export default function BigNote() {
 
     function addPlaceHolder() {
         if (placeHolders.length >= 99) return
-        setPlaceHolders(p => [{ desc: '...', completed: false }, ...p])
+        setPlaceHolders(p => [{ desc: '', completed: false }, ...p])
     }
 
 
