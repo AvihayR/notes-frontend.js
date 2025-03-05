@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react"
-import { getNotes } from "../services/apiService"
+import { getNotes, deleteNote } from "../services/apiService"
 import SubNote from "./SubNote"
 
 
@@ -20,7 +20,7 @@ export default function BigNote() {
 
     useEffect(() => {
         if (notes.length > 0) {
-            populatePlaceHolders(notes)
+            populatePlaceHolders()
         }
     }, [notes])
 
@@ -35,7 +35,7 @@ export default function BigNote() {
         let updatedPlaceHolders = [...placeHolders]
 
         while (updatedPlaceHolders.length < notes.length) {
-            updatedPlaceHolders.unshift({ desc: "...", completed: false })
+            updatedPlaceHolders.unshift({ desc: "", completed: false })
         }
 
         updatedPlaceHolders = updatedPlaceHolders.map((placeholder, index) => {
@@ -53,6 +53,16 @@ export default function BigNote() {
         setPlaceHolders(updatedPlaceHolders)
     }
 
+    const handleDelete = async (note_id) => {
+        console.log('deleting note:', note_id)
+        try {
+            await deleteNote(note_id)
+            setNotes(notes.filter(note => note.note_id !== note_id))
+            setPlaceHolders(placeHolders.filter(ph => ph.note_id !== note_id))
+        } catch (err) {
+            console.log(err)
+        }
+    }
 
     return (
         <div className="big-note w-100 md:w-150 h-180 p-1.5">
@@ -69,7 +79,7 @@ export default function BigNote() {
                 <div className="right-container overflow-y-scroll w-full h-full pt-20 absolute">
                     {placeHolders.map((note, index) => (
                         <div key={index} className="note">
-                            <SubNote key={index} note={note} i={index} />
+                            <SubNote key={index} note={note} i={index} onDeleteNote={handleDelete} />
                         </div>
                     ))}
                 </div>
