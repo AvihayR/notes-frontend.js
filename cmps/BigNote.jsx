@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react"
-import { getNotes, deleteNote } from "../services/apiService"
+import { getNotes, deleteNote, getNote, createNote, updateNote } from "../services/apiService"
 import SubNote from "./SubNote"
 
 
@@ -27,7 +27,7 @@ export default function BigNote() {
 
     function addPlaceHolder() {
         if (placeHolders.length >= 99) return
-        setPlaceHolders(p => [{ desc: '', completed: false }, ...p])
+        setPlaceHolders(p => [...p, { desc: '', completed: false }])
     }
 
 
@@ -53,8 +53,30 @@ export default function BigNote() {
         setPlaceHolders(updatedPlaceHolders)
     }
 
-    const handleDelete = async (note_id) => {
-        console.log('deleting note:', note_id)
+
+    async function handleUpdate(ev, note, i) {
+        let updatedNote = { ...note, desc: ev.target.value }
+
+        if (!note.note_id) {
+            console.log('New note! 🎉', i)
+            const res = await createNote(updatedNote)
+            updatedNote = res.note
+
+            if (i === 0) {
+                const newNotes = [...notes]
+                newNotes.splice(i, 0, updatedNote)
+                setNotes(newNotes)
+            }
+        }
+
+        setPlaceHolders(placeHolders.map((ph, index) => index === i ? updatedNote : ph))
+
+        const updatedNotes = notes.map(n => n.note_id === note.note_id ? updatedNote : n)
+        setNotes(updatedNotes)
+    }
+
+
+    async function handleDelete(note_id) {
         try {
             await deleteNote(note_id)
             setNotes(notes.filter(note => note.note_id !== note_id))
@@ -63,6 +85,38 @@ export default function BigNote() {
             console.log(err)
         }
     }
+
+
+    async function handleBlur(note) {
+        try {
+            let res = await getNote(note.note_id)
+
+            if (!res) {
+                res = await createNote(note)
+            }
+            else if (res.note.desc === note.desc) return
+            else {
+                res = await updateNote(note)
+            }
+
+
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
+
+    async function handleCheck(note) {
+        const checkedNote = { ...note, completed: !note.completed }
+        const updatedNotes = notes.map(n => n.note_id === note.note_id ? checkedNote : n)
+        setNotes(updatedNotes)
+        setPlaceHolders(placeHolders.map(ph => ph.note_id === note.note_id ? checkedNote : ph))
+
+        console.log('Hello from check', note)
+
+        await updateNote(checkedNote)
+    }
+
 
     return (
         <div className="big-note w-100 md:w-150 h-180 p-1.5">
@@ -79,7 +133,7 @@ export default function BigNote() {
                 <div className="right-container overflow-y-scroll w-full h-full pt-20 absolute">
                     {placeHolders.map((note, index) => (
                         <div key={index} className="note">
-                            <SubNote key={index} note={note} i={index} onDeleteNote={handleDelete} />
+                            <SubNote key={index} note={note} i={index} onDeleteNote={handleDelete} handleChange={handleUpdate} handleBlur={handleBlur} handleCheck={handleCheck} />
                         </div>
                     ))}
                 </div>
