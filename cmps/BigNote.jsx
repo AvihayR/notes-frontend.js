@@ -129,7 +129,7 @@ export default function BigNote() {
                         </button>
                     </div>
                 </div>
-                <div className="left-container z-20 border-r-2 border-r-pink-400 w-16 h-full relative"></div>
+                <div className="left-container z-100 border-r-2 border-r-pink-400 w-16 h-full relative"></div>
                 <div className="right-container overflow-y-scroll w-full h-full pt-20 absolute">
                     {placeHolders.map((note, index) => (
                         <div key={index} className="note">
